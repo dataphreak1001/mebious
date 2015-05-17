@@ -7,7 +7,8 @@ class Posts < Model
 
   def last(n)
     query = <<-SQL
-      SELECT * FROM `posts`
+      SELECT `id`, `text`, `spawn`, `is_admin`
+      FROM `posts`
       ORDER BY `spawn` DESC
       LIMIT #{n};
     SQL
@@ -15,14 +16,15 @@ class Posts < Model
     self.query(query)
   end
 
-  def add(text)
+  def add(text, ip)
     stamp = Time.now.to_i
     text = Model::escape(text[0...512])
     query = <<-SQL
-      INSERT INTO `posts` (`text`, `spawn`, `is_admin`)
+      INSERT INTO `posts` (`text`, `spawn`, `ip`, `is_admin`)
       VALUES (
         "#{text}",
         #{stamp},
+        "#{ip}",
         0
       );
     SQL
