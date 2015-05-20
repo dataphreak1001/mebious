@@ -37,3 +37,12 @@ body, input {
 		padding: 2px;
 		vertical-align: 1px;
 }
+
+#posts {
+    clear: both;
+}
+
+.post {
+    width: 40%;
+    word-wrap: break-word;
+}

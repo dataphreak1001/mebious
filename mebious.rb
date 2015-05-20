@@ -1,10 +1,13 @@
 require 'sinatra'
 require_relative 'models/posts'
+require_relative 'utils/Mebious'
 
 $config = "./config.json"
 $posts  = Posts.new($config)
 
 get ('/') {
+  @posts = $posts.last(10)
+  
   erb :index
 }
 
