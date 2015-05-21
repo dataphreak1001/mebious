@@ -1,3 +1,4 @@
+# coding: utf-8
 module Mebious
   def gencolor(hue)
     sat = rand(100)
@@ -43,6 +44,43 @@ module Mebious
            "left: #{x}%;"
            
   end
+
+  def corrupt(str)
+    corruptions = [
+      {"u" => "ü"},
+      {"e" => "è"},
+      {"e" => "ë"},
+      {"a" => "@"},
+      {"u" => "ù"},
+      {"a" => "à"},
+      {"o" => "ò"},
+      {"s" => "$"},
+      {"i" => "ï"},
+      {"y" => "ÿ"},
+      {"i" => "î"},
+      {"a" => "á"},
+      {"a" => "ã"},
+      {"e" => "ê"},
+      {"i" => "ï"},
+      {"o" => "ô"},
+      {"o" => "ø"},
+      {"i" => "1"}
+    ]
+    
+    if rand(2) == 1
+      n = rand(1..2)
+      chosen = corruptions.shuffle[0...n]
+      chosen.each { |corruption|
+        corruption.each_pair { |k, v|
+          str = str.gsub(k, v)
+        }
+      }
+      
+      return str
+    else
+      return str
+    end    
+  end
   
-  module_function :green, :red, :gencolor, :stylize, :fonts
+  module_function :green, :red, :gencolor, :stylize, :fonts, :corrupt
 end

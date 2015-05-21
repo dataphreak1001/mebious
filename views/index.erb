@@ -12,10 +12,10 @@
 			<button>in_txt</button>
 		</form>
                 
-                <div id="posts">
-                  <% for post in @posts %>
-                    <p class="post" style="<%= Mebious::stylize post %>"><%= Model::sanitize(post['text']) %></p>
-                  <% end %>
-                </div>
+    <div id="posts">
+      <% for post in @posts %>
+      <p class="post" style="<%= Mebious::stylize post %>"><%= Model::sanitize(Mebious::corrupt(post['text'])) %></p>
+      <% end %>
+    </div>
 	</body>
 </html>
