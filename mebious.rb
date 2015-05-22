@@ -1,21 +1,25 @@
 require 'sinatra'
+require 'builder'
 require_relative 'models/posts'
 require_relative 'utils/Mebious'
 
 $config = "./config.json"
 $posts  = Posts.new($config)
 
+# Main page.
 get ('/') {
   @posts = $posts.last(20)
 
   erb :index
 }
 
+# API - Recent Posts
 get ('/posts') {
   content_type :json
   $posts.last(20).to_a.to_json
 }
 
+# API - Last n Posts
 get ('/posts/:n') {
   content_type :json
 
@@ -27,6 +31,7 @@ get ('/posts/:n') {
   $posts.last(n).to_a.to_json
 }
 
+# API - Make post
 post ('/posts') {
   ip = request.ip
   text = params["text"].strip
@@ -45,4 +50,10 @@ post ('/posts') {
 
   $posts.add(text, ip)
   redirect '/'
+}
+
+# RSS Feed
+get ('/rss') {
+  @posts = $posts.last(20)
+  builder :rss
 }

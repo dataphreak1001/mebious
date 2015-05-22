@@ -16,7 +16,7 @@ body, input {
 		font-size: 0.9em;
 }
 
-#text {
+#text, #rss {
 		border: 1px solid #003300;
 		display: inline;
 		float: left;
@@ -29,13 +29,22 @@ body, input {
 		padding: 1px;
 }
 
-#text button {
+#text button, #rss a{
+		text-decoration: none;
 		border: 1px solid #00cc00;
 		color: #00ff00;
 		background: #000000;
 		font-size: 0.8em;
 		padding: 2px;
 		vertical-align: 1px;
+}
+
+#rss {
+		padding: 3px 2px 3px 2px;
+}
+
+#rss a:hover {
+		cursor: default;
 }
 
 #posts {
