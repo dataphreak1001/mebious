@@ -29,7 +29,12 @@ get ('/posts/:n') {
 
 post ('/posts') {
   ip = request.ip
+  text = params["text"].strip
 
+  if $posts.duplicate? text
+    redirect '/'
+  end
+  
   if !params.has_key? "text"
     redirect '/'    
   end
@@ -38,6 +43,6 @@ post ('/posts') {
     redirect '/'
   end
 
-  $posts.add(params["text"], ip)
+  $posts.add(text, ip)
   redirect '/'
 }
