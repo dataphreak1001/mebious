@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'builder'
 require_relative 'models/posts'
+require_relative 'models/bans'
 require_relative 'utils/Mebious'
 
 $config = "./config.json"

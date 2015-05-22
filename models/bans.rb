@@ -1,7 +1,7 @@
 require_relative 'model'
 
 class Bans < Model
-  def intialize(config)
+  def initialize(config)
     super(config, "bans")
   end
 
