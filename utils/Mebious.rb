@@ -33,7 +33,7 @@ module Mebious
       color = self.green
     end
 
-    size = rand(0.8...2.5).round(2)
+    size = rand(0.8...2.0).round(2)
     x = rand(0.1...40).round(2)
     font = self.fonts
     
