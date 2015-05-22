@@ -5,6 +5,7 @@ require_relative 'utils/Mebious'
 
 $config = "./config.json"
 $posts  = Posts.new($config)
+$bans   = Bans.new($config)
 
 # Main page.
 get ('/') {
@@ -37,6 +38,10 @@ post ('/posts') {
   text = params["text"].strip
 
   if $posts.duplicate? text
+    redirect '/'
+  end
+
+  if $bans.banned? ip
     redirect '/'
   end
   
