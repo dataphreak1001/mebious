@@ -14,8 +14,8 @@ third party interfaces with read/write access to the central database.
 
 Currently, the API looks like this:
 
-`GET /posts` -> Returns a JSON array of objects representing the last 10 posts.
+`GET /posts` -> Returns a JSON array of objects representing the last 20 posts.
 
-`GET /posts/n` (n = Integer > 0 and < 50) -> Returns a JSON array of objects representing the last `n` posts.
+`GET /posts/n` (n = Integer > 0 and < 100) -> Returns a JSON array of objects representing the last `n` posts.
 
-`POST /posts` ['text' = String] -> Creates a post from the given 'text' string parameter
+Write access to be implemented.
