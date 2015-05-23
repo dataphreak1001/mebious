@@ -10,6 +10,12 @@ configure do
   use Rack::Csrf, :raise => true
 end
 
+helpers do
+  def csrf_tag
+    Rack::Csrf.csrf_tag(env)
+  end
+end
+
 $config = "./config.json"
 $posts  = Posts.new($config)
 $bans   = Bans.new($config)

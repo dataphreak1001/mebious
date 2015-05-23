@@ -8,17 +8,17 @@
   </head>
   <body>
     <form action="/posts" method="POST" id="text">
-			<%= Rack::Csrf.csrf_tag(env) %>
+      <%= csrf_tag %>
       <input type="text" name="text" size="32" maxlength="512">
       <button>in_txt</button>
     </form>
 
-		<div id="rss">
-			<a href="/rss">rss</a>
-		</div>
-                
+    <div id="rss">
+      <a href="/rss">rss</a>
+    </div>
+    
     <div id="posts">
-			<% @posts = @posts.to_a.reverse %>
+      <% @posts = @posts.to_a.reverse %>
       <% for post in @posts %>
       <p class="post" style="<%= Mebious::stylize post %>"><%= Model::sanitize(Mebious::corrupt(post['text'])) %></p>
       <% end %>
