@@ -7,10 +7,11 @@ class Model
     data = File.read(config)
     data = JSON.parse(data)
     @core = Mysql2::Client.new(
-      :host     => data['host'],
-      :username => data['user'],
-      :password => data['password'],
-      :database => data['database']
+      :host      => data['host'],
+      :username  => data['user'],
+      :password  => data['password'],
+      :database  => data['database'],
+      :reconnect => true
     )
 
     @table = table
