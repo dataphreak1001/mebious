@@ -1,9 +1,19 @@
 require 'sinatra'
 require 'builder'
 require 'rack/csrf'
+require 'sinatra/cross_origin'
 require_relative 'models/posts'
 require_relative 'models/bans'
 require_relative 'utils/Mebious'
+
+$config = "./config.json"
+$posts  = Posts.new($config)
+$bans   = Bans.new($config)
+
+set :allow_origin, :any
+set :allow_methods, [:get, :post, :options]
+set :max_age, "1728000"
+set :expose_headers, ['Content-Type']
 
 configure do
   use Rack::Session::Cookie, :secret => "just an example"
@@ -15,10 +25,6 @@ helpers do
     Rack::Csrf.csrf_tag(env)
   end
 end
-
-$config = "./config.json"
-$posts  = Posts.new($config)
-$bans   = Bans.new($config)
 
 # Main page.
 get ('/') {
@@ -53,12 +59,14 @@ post ('/posts') {
 
 # API - Recent Posts
 get ('/posts') {
+  cross_origin
   content_type :json
   $posts.last(20).to_a.to_json
 }
 
 # API - Last n Posts
 get ('/posts/:n') {
+  cross_origin
   content_type :json
 
   n = params[:n].to_i
