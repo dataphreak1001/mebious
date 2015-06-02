@@ -13,7 +13,7 @@ body, input {
 		color: #00FF00;
 		background: #000000;
 		font-family: Verdana, Arial, Helvetica, sans-serif;
-		font-size: 0.9em;
+		font-size: 0.8em;
 }
 
 #text, #rss {
@@ -26,7 +26,12 @@ body, input {
 
 #text input {
 		border: 1px solid #006600;
-		padding: 1px;
+		padding: 2px;
+		vertical-align: middle;
+}
+
+#text button {
+		vertical-align: middle;
 }
 
 #text button, #rss a{
@@ -36,11 +41,10 @@ body, input {
 		background: #000000;
 		font-size: 0.8em;
 		padding: 2px;
-		vertical-align: 1px;
 }
 
 #rss {
-		padding: 3px 2px 3px 2px;
+		padding: 3px 2px 4px 2px;
 }
 
 #rss a:hover {
