@@ -8,13 +8,13 @@
     <meta charset="utf-8">
   </head>
   <body>
-    <form action="/posts" method="POST" id="text">
-      <%= csrf_tag %>
-      <input type="text" name="text" size="32" maxlength="512">
-      <button>in_txt</button>
-    </form>
+    <div id="outline">
+      <form action="/posts" method="POST" id="text">
+        <%= csrf_tag %>
+        <input type="text" name="text" size="32" maxlength="512">
+        <button>in_txt</button>
+      </form>
 
-    <div id="rss">
       <a href="/rss">rss</a>
     </div>
     

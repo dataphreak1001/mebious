@@ -1,54 +1,53 @@
 /* Based on the original mebious.co.uk style. */
 
 * {
-		margin: 0px;
-		padding: 0px;
+    margin: 0px;
+    padding: 0px;
 }
 
 body {
-		background: #000000;
+    background: #000000;
 }
 
 body, input {
-		color: #00FF00;
-		background: #000000;
-		font-family: Verdana, Arial, Helvetica, sans-serif;
-		font-size: 0.8em;
+    color: #00FF00;
+    background: #000000;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 0.8em;
 }
 
-#text, #rss {
-		border: 1px solid #003300;
-		display: inline;
-		float: left;
-		padding: 2px;
-		margin: 2px;
+#text {
+    display: inline;
 }
 
-#text input {
-		border: 1px solid #006600;
-		padding: 2px;
-		vertical-align: middle;
+#outline {
+    vertica-align: middle;
+    border: 1px solid #003300;
+    display: inline;
+    float: left;
+    padding: 2px;
+    clear: none;
+    margin: 2px;
 }
 
-#text button {
-		vertical-align: middle;
+#outline input {
+    border: 1px solid #006600;
+    padding: 2px;
+    vertical-align: middle;
 }
 
-#text button, #rss a{
-		text-decoration: none;
-		border: 1px solid #00cc00;
-		color: #00ff00;
-		background: #000000;
-		font-size: 0.8em;
-		padding: 2px;
+#outline button, #outline a {
+    vertical-align: middle;
+    text-decoration: none;
+    border: 1px solid #00cc00;
+    color: #00ff00;
+    background: #000000;
+    font-size: 0.8em;
+    padding: 2px;
 }
 
-#rss {
-		padding: 3px 2px 4px 2px;
-}
-
-#rss a:hover {
-		cursor: default;
+#outline a:hover {
+    cursor: default;
 }
 
 #posts {
