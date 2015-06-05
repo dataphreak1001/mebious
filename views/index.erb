@@ -11,7 +11,7 @@
     <div id="outline">
       <form action="/posts" method="POST" id="text">
         <%= csrf_tag %>
-        <input type="text" name="text" size="32" maxlength="512">
+        <textarea name="text" rows="1" cols="32" maxlength="512"></textarea>
         <button>in_txt</button>
       </form>
 

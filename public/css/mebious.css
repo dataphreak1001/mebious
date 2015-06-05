@@ -21,7 +21,7 @@ body, input {
 }
 
 #outline {
-    vertica-align: middle;
+    vertical-align: middle;
     border: 1px solid #003300;
     display: inline;
     float: left;
@@ -30,10 +30,13 @@ body, input {
     margin: 2px;
 }
 
-#outline input {
+#outline textarea {
     border: 1px solid #006600;
-    padding: 2px;
+    background: black;
     vertical-align: middle;
+    font-size: 0.8em;
+    height: 13px;
+    padding: 2px;
 }
 
 #outline button, #outline a {
