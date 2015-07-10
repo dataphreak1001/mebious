@@ -32,10 +32,14 @@ class Posts < Model
     self.query(query)
   end
 
-  def duplicate?(str)
-    last = self.last(1).to_a[0]
-    txt = last["text"]
+  def duplicate?(str)    
+    last = self.last(1).to_a
 
-    return (txt == str)
+    if last.empty?
+      return false
+    else    
+      txt = last[0]["text"]      
+      return (txt == str)
+    end
   end
 end
