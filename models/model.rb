@@ -1,5 +1,6 @@
 require 'mysql2'
 require 'json'
+require 'digest'
 
 # A basic model for a sinatra/mysql setup.
 class Model
@@ -31,5 +32,9 @@ class Model
   # escape html-interfering strings
   def self.sanitize(str)
     Rack::Utils.escape_html(str)
+  end
+
+  def self.to_sha1(str)
+    Digest::SHA1.hexdigest(str)
   end
 end

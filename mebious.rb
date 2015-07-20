@@ -35,7 +35,7 @@ class MebiousApp < Sinatra::Base
 
   # Make post
   post ('/posts') {
-    ip = request.ip
+    ip = Model::to_sha1(request.ip)
     text = params["text"].strip
 
     if $posts.duplicate? text
