@@ -16,6 +16,8 @@ class MebiousApp < Sinatra::Base
   set :max_age, "1728000"
   set :expose_headers, ['Content-Type']
 
+  register Sinatra::CrossOrigin
+
   configure do
     use Rack::Session::Cookie, :secret => "just an example"
     use Rack::Csrf, :raise => true
@@ -71,7 +73,7 @@ class MebiousApp < Sinatra::Base
     content_type :json
 
     n = params[:n].to_i
-    if (n > 100 or n < 1)
+    if (n > 50 or n < 1)
       redirect '/posts'
     end
 
