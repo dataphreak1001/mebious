@@ -1,6 +1,3 @@
 {
-		"host"     : "localhost",
-		"user"     : "mebious",
-		"password" : "secret password!",
-		"database" : "mebious"
+		"database" : "mebious.db"
 }

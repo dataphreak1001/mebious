@@ -8,13 +8,13 @@ class Bans < Model
   def banned?(ip)
     query = <<-SQL
       SELECT * FROM `bans`
-      WHERE `ip` = "#{ip}"
-      LIMIT 1
+      WHERE `ip` = ? 
+      LIMIT 1;
     SQL
 
-    res = self.query(query)
+    res = self.query(query, [ip])
 
-    if res.count > 0
+    if res.length > 0
       return true
     else
       return false

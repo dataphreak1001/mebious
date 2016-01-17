@@ -21,19 +21,14 @@ class Posts < Model
     text = Model::escape(text[0...512])
     query = <<-SQL
       INSERT INTO `posts` (`text`, `spawn`, `ip`, `is_admin`)
-      VALUES (
-        "#{text}",
-        #{stamp},
-        "#{ip}",
-        0
-      );
+      VALUES (?, ?, ?, ?);
     SQL
 
-    self.query(query)
+    self.query(query, [text, stamp, ip, 0])
   end
 
   def duplicate?(str)    
-    last = self.last(1).to_a
+    last = self.last(1)
 
     if last.empty?
       return false

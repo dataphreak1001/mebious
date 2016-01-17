@@ -1,8 +1,7 @@
-CREATE TABLE IF NOT EXISTS `posts` (
-       id       INT NOT NULL AUTO_INCREMENT,
-       text     VARCHAR(512),
-       spawn    INT,
-       ip       VARCHAR(64),
-       is_admin TINYINT(1),
-       PRIMARY KEY(id)
+create table if not exists posts (
+       id integer primary key autoincrement, 
+       text varchar(512),
+       spawn integer,
+       ip varchar(64),
+       is_admin tinyint(1) 
 );

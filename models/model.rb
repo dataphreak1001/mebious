@@ -1,4 +1,4 @@
-require 'mysql2'
+require 'sqlite3'
 require 'json'
 require 'digest'
 
@@ -7,26 +7,19 @@ class Model
   def initialize(config, table)
     data = File.read(config)
     data = JSON.parse(data)
-    @core = Mysql2::Client.new(
-      :host      => data['host'],
-      :username  => data['user'],
-      :password  => data['password'],
-      :database  => data['database'],
-      :reconnect => true
-    )
+    @core = SQLite3::Database.new(data['database']) 
+    @core.results_as_hash = true
 
     @table = table
   end
 
-  # override the table and
-  # just execute the query
-  def query(txt)
-    @core.query(txt)
+  def query(*args)
+    @core.execute(*args)
   end
 
   # escape SQL-interfering strings
   def self.escape(str)
-    Mysql2::Client.escape(str)
+    SQLite3::Database.quote(str)
   end
 
   # escape html-interfering strings
