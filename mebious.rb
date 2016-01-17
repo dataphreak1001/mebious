@@ -85,6 +85,9 @@ class MebiousApp < Sinatra::Base
 
   # API - Post API
   post ('/api/:key') {
+    cross_origin
+    content_type :json
+
     if $api.allowed? params[:key]
       ip = Model::to_sha1(request.ip)
 
