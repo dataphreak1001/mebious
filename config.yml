@@ -1,7 +1,7 @@
 ---
 mysql:
   host: localhost
-  user: mebious
+  username: mebious
   database: mebious
   password: mebious
 

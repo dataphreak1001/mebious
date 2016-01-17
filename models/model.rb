@@ -39,8 +39,8 @@ class Model
       when "sqlite"
         @core.execute(statement, args)
       else
-        statement = @core.query(statement)
-        statement.execute(*args)
+        statement = @core.prepare(statement)
+        statement.execute(*args).to_a
     end
   end
 
