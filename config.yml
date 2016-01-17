@@ -1,0 +1,12 @@
+---
+mysql:
+  host: localhost
+  user: mebious
+  database: mebious
+  password: mebious
+
+sqlite: 
+  database: mebious.db
+
+driver: sqlite
+...

@@ -7,7 +7,7 @@ require_relative 'models/bans'
 require_relative 'models/api'
 require_relative 'utils/Mebious'
 
-$config = "./config.json"
+$config = "./config.yml"
 $posts  = Posts.new($config)
 $bans   = Bans.new($config)
 $api    = API.new($config)

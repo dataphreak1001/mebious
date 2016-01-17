@@ -10,10 +10,10 @@ class Posts < Model
       SELECT `id`, `text`, `spawn`, `is_admin`
       FROM `posts`
       ORDER BY `spawn` DESC
-      LIMIT #{n};
+      LIMIT ?;
     SQL
 
-    self.query(query)
+    self.query(query, [n])
   end
 
   def add(text, ip)
