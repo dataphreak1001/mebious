@@ -8,7 +8,7 @@ class API < Model
   def allowed?(key)
     query = <<-SQL
       SELECT * FROM `api`
-      WHERE `key` = ? 
+      WHERE `apikey` = ? 
       LIMIT 1;
     SQL
 
