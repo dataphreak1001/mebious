@@ -4,11 +4,13 @@ require 'rack/csrf'
 require 'sinatra/cross_origin'
 require_relative 'models/posts'
 require_relative 'models/bans'
+require_relative 'models/api'
 require_relative 'utils/Mebious'
 
 $config = "./config.json"
 $posts  = Posts.new($config)
 $bans   = Bans.new($config)
+$api    = API.new($config)
 
 class MebiousApp < Sinatra::Base
   set :allow_origin, :any
@@ -20,7 +22,7 @@ class MebiousApp < Sinatra::Base
 
   configure do
     use Rack::Session::Cookie, :secret => "just an example"
-    use Rack::Csrf, :raise => true
+    use Rack::Csrf, :raise => true, :skip => ['POST:/api/.*']
   end
 
   helpers do
@@ -38,6 +40,15 @@ class MebiousApp < Sinatra::Base
   # Make post
   post ('/posts') {
     ip = Model::to_sha1(request.ip)
+    
+    if !params.has_key? "text"
+      redirect '/'    
+    end
+
+    if params["text"].empty?
+      redirect '/'
+    end
+
     text = params["text"].strip
 
     if $posts.duplicate? text
@@ -45,14 +56,6 @@ class MebiousApp < Sinatra::Base
     end
 
     if $bans.banned? ip
-      redirect '/'
-    end
-    
-    if !params.has_key? "text"
-      redirect '/'    
-    end
-
-    if params["text"].empty?
       redirect '/'
     end
 
@@ -78,6 +81,36 @@ class MebiousApp < Sinatra::Base
     end
 
     $posts.last(n).to_a.to_json
+  }
+
+  # API - Post API
+  post ('/api/:key') {
+    if $api.allowed? params[:key]
+      ip = Model::to_sha1(request.ip)
+
+      if !params.include? "text"
+        return {"ok" => false, "error" => "No text parameter!"}.to_json
+      end
+
+      if params["text"].empty?
+        return {"ok" => false, "error" => "Empty text parameter!"}.to_json
+      end
+
+      text = params["text"].strip
+
+      if $posts.duplicate? text
+        return {"ok" => false, "error" => "Duplicate post!"}.to_json
+      end
+
+      if $bans.banned? ip
+        return {"ok" => false, "error" => "You're banned!"}.to_json
+      end
+
+      $posts.add(text, ip)
+      {"ok" => true}.to_json
+    else
+      {"ok" => false, "error" => "Invalid API key!"}.to_json
+    end
   }
 
   # RSS Feed
