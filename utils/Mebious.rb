@@ -1,3 +1,6 @@
+require 'rack'
+require 'digest'
+
 # coding: utf-8
 module Mebious
   def gencolor(hue)
@@ -82,5 +85,13 @@ module Mebious
     end    
   end
   
-  module_function :green, :red, :gencolor, :stylize, :fonts, :corrupt
+  def sanitize(str)
+    Rack::Utils.escape_html str
+  end
+
+  def digest(str)
+    Digest::SHA1.hexdigest str
+  end
+
+  module_function :green, :red, :gencolor, :stylize, :fonts, :corrupt, :sanitize, :digest
 end

@@ -1,18 +1,6 @@
-require_relative 'model'
-
-class Bans < Model
-  def initialize(config)
-    super(config, "bans")
-  end
-
-  def banned?(ip)
-    query = <<-SQL
-      SELECT * FROM `bans`
-      WHERE `ip` = ? 
-      LIMIT 1;
-    SQL
-
-    res = self.query(query, [ip])
+class Ban < ActiveRecord::Base 
+  def self.banned?(ip)
+    res = self.where(:ip => ip)
 
     if res.length > 0
       return true

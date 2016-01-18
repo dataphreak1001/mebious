@@ -19,9 +19,8 @@
     </div>
     
     <div id="posts">
-      <% @posts = @posts.to_a.reverse %>
       <% for post in @posts %>
-      <p class="post" style="<%= Mebious::stylize post %>"><%= Model::sanitize(Mebious::corrupt(post['text'])) %></p>
+      <p class="post" style="<%= Mebious::stylize post %>"><%= Mebious::sanitize(Mebious::corrupt(post.text)) %></p>
       <% end %>
     </div>
   </body>

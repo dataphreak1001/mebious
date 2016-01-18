@@ -1,18 +1,8 @@
-require_relative 'model'
+class API < ActiveRecord::Base 
+  self.table_name = "api"
 
-class API < Model
-  def initialize(config)
-    super(config, "api")
-  end
-
-  def allowed?(key)
-    query = <<-SQL
-      SELECT * FROM `api`
-      WHERE `apikey` = ? 
-      LIMIT 1;
-    SQL
-
-    res = self.query(query, [key])
+  def self.allowed?(key)
+    res = self.where(:apikey => key)
 
     if res.length > 0
       return true

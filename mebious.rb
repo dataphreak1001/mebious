@@ -1,16 +1,38 @@
 require 'sinatra'
+require "yaml"
 require 'builder'
 require 'rack/csrf'
 require 'sinatra/cross_origin'
+require "active_record"
 require_relative 'models/posts'
 require_relative 'models/bans'
 require_relative 'models/api'
 require_relative 'utils/Mebious'
 
-$config = "./config.yml"
-$posts  = Posts.new($config)
-$bans   = Bans.new($config)
-$api    = API.new($config)
+begin
+  config  = YAML.load_file "config.yml"
+  options = config[config["driver"]]
+  [Post, API, Ban].map { |klass|
+    case config["driver"]
+      when "sqlite"
+        klass.establish_connection({
+          :adapter  => "sqlite3",
+          :database => options["database"]
+        })
+      else
+        klass.establish_connection({
+          :adapter  => "mysql2",
+          :host     => options["host"],
+          :username => options["username"],
+          :password => options["password"],
+          :database => options["database"]
+        })
+    end
+  }
+rescue Exception => e
+  puts "Error loading configuration."
+  exit 1
+end
 
 class MebiousApp < Sinatra::Base
   set :allow_origin, :any
@@ -21,7 +43,7 @@ class MebiousApp < Sinatra::Base
   register Sinatra::CrossOrigin
 
   configure do
-    use Rack::Session::Cookie, :secret => "just an example"
+    use Rack::Session::Cookie, :secret => "your secret here"
     use Rack::Csrf, :raise => true, :skip => ['POST:/api/.*']
   end
 
@@ -33,13 +55,13 @@ class MebiousApp < Sinatra::Base
 
   # Main page.
   get ('/') {
-    @posts = $posts.last(20)
+    @posts = Post.last(20).to_a
     erb :index
   }
 
   # Make post
   post ('/posts') {
-    ip = Model::to_sha1(request.ip)
+    ip = Mebious::digest(request.ip)
     
     if !params.has_key? "text"
       redirect '/'    
@@ -51,15 +73,15 @@ class MebiousApp < Sinatra::Base
 
     text = params["text"].strip
 
-    if $posts.duplicate? text
+    if Post.duplicate? text
       redirect '/'
     end
 
-    if $bans.banned? ip
+    if Ban.banned? ip
       redirect '/'
     end
 
-    $posts.add(text, ip)
+    Post.add(text, ip)
     redirect '/'
   }
 
@@ -67,7 +89,7 @@ class MebiousApp < Sinatra::Base
   get ('/posts') {
     cross_origin
     content_type :json
-    $posts.last(20).to_a.to_json
+    Post.last(20).to_json
   }
 
   # API - Last n Posts
@@ -80,7 +102,7 @@ class MebiousApp < Sinatra::Base
       redirect '/posts'
     end
 
-    $posts.last(n).to_a.to_json
+    Post.last(n).to_json
   }
 
   # API - Post API
@@ -88,8 +110,8 @@ class MebiousApp < Sinatra::Base
     cross_origin
     content_type :json
 
-    if $api.allowed? params[:key]
-      ip = Model::to_sha1(request.ip)
+    if API.allowed? params[:key]
+      ip = Mebious::digest(request.ip)
 
       if !params.include? "text"
         return {"ok" => false, "error" => "No text parameter!"}.to_json
@@ -101,15 +123,15 @@ class MebiousApp < Sinatra::Base
 
       text = params["text"].strip
 
-      if $posts.duplicate? text
+      if Post.duplicate? text
         return {"ok" => false, "error" => "Duplicate post!"}.to_json
       end
 
-      if $bans.banned? ip
+      if Ban.banned? ip
         return {"ok" => false, "error" => "You're banned!"}.to_json
       end
 
-      $posts.add(text, ip)
+      Post.add(text, ip)
       {"ok" => true}.to_json
     else
       {"ok" => false, "error" => "Invalid API key!"}.to_json
@@ -118,7 +140,7 @@ class MebiousApp < Sinatra::Base
 
   # RSS Feed
   get ('/rss') {
-    @posts = $posts.last(20)
+    @posts = Post.last(20)
     builder :rss
   }
 end
