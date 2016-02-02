@@ -74,7 +74,7 @@ class MebiousApp < Sinatra::Base
   get ('/posts') {
     cross_origin
     content_type :json
-    Post.last(20).to_json
+    Post.select("id, text, spawn, is_admin").last(20).to_json
   }
 
   # API - Last n Posts
@@ -87,7 +87,7 @@ class MebiousApp < Sinatra::Base
       redirect '/posts'
     end
 
-    Post.last(n).to_json
+    Post.select("id, text, spawn, is_admin").last(n).to_json
   }
 
   # API - Post API
