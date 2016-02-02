@@ -1,12 +1,12 @@
 ---
-mysql:
-  host: localhost
-  username: mebious
-  database: mebious
-  password: mebious
+#database:
+#  :adapter: mysql2
+#  :host: localhost
+#  :username: mebious
+#  :database: mebious
+#  :password: mebious
 
-sqlite: 
-  database: mebious.db
-
-driver: sqlite
+database:
+  :adapter: sqlite3
+  :database: mebious.db
 ...

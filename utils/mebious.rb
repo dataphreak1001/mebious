@@ -90,7 +90,7 @@ module Mebious
   end
 
   def digest(str)
-    Digest::SHA1.hexdigest str
+    Digest::SHA512.hexdigest str
   end
 
   module_function :green, :red, :gencolor, :stylize, :fonts, :corrupt, :sanitize, :digest

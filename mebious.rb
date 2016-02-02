@@ -7,27 +7,12 @@ require "active_record"
 require_relative 'models/posts'
 require_relative 'models/bans'
 require_relative 'models/api'
-require_relative 'utils/Mebious'
+require_relative 'utils/mebious'
 
 begin
   config  = YAML.load_file "config.yml"
-  options = config[config["driver"]]
   [Post, API, Ban].map { |klass|
-    case config["driver"]
-      when "sqlite"
-        klass.establish_connection({
-          :adapter  => "sqlite3",
-          :database => options["database"]
-        })
-      else
-        klass.establish_connection({
-          :adapter  => "mysql2",
-          :host     => options["host"],
-          :username => options["username"],
-          :password => options["password"],
-          :database => options["database"]
-        })
-    end
+    klass.establish_connection config["database"]
   }
 rescue Exception => e
   puts "Error loading configuration."
