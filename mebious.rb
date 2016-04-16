@@ -16,6 +16,7 @@ begin
   }
 rescue Exception => e
   puts "Error loading configuration."
+  puts e
   exit 1
 end
 
@@ -46,10 +47,10 @@ class MebiousApp < Sinatra::Base
 
   # Make post
   post ('/posts') {
-    ip = Mebious::digest(request.ip)
-    
+    ip = Mebious::digest(request.ip << request.user_agent)
+
     if !params.has_key? "text"
-      redirect '/'    
+      redirect '/'
     end
 
     if params["text"].empty?
@@ -96,7 +97,7 @@ class MebiousApp < Sinatra::Base
     content_type :json
 
     if API.allowed? params[:key]
-      ip = Mebious::digest(request.ip)
+      ip = Mebious::digest(request.ip << request.user_agent)
 
       if !params.include? "text"
         return {"ok" => false, "error" => "No text parameter!"}.to_json
@@ -127,5 +128,11 @@ class MebiousApp < Sinatra::Base
   get ('/rss') {
     @posts = Post.last(20)
     builder :rss
+  }
+
+  # Landscape
+  get ('/landscape') {
+    @nums = (1...99).to_a.shuffle.join(" ")
+    erb :landscape
   }
 end
