@@ -129,10 +129,4 @@ class MebiousApp < Sinatra::Base
     @posts = Post.last(20)
     builder :rss
   }
-
-  # Landscape
-  get ('/landscape') {
-    @nums = (1...99).to_a.shuffle.join(" ")
-    erb :landscape
-  }
 end
