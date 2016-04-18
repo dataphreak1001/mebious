@@ -13,15 +13,19 @@ body, input {
     color: #00FF00;
     background: #000000;
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 0.8em;
+    font-size: 0.7rem;
 }
 
 #text {
     display: inline;
 }
 
+#image {
+    display: inline;
+}
+
 #outline {
-    vertica-align: middle;
+    vertical-align: middle;
     border: 1px solid #003300;
     display: inline;
     float: left;
@@ -42,11 +46,11 @@ body, input {
     border: 1px solid #00cc00;
     color: #00ff00;
     background: #000000;
-    font-size: 0.8em;
+    font-size: 0.7rem;
     padding: 2px;
 }
 
-#outline a:hover {
+#outline a:hover, button {
     cursor: default;
 }
 

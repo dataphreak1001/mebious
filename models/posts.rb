@@ -11,12 +11,12 @@ class Post < ActiveRecord::Base
     })
   end
 
-  def self.duplicate?(str)    
+  def self.duplicate?(str)
     last = self.last(1)
 
     if last.empty?
       return false
-    else    
+    else
       txt = last[0].text
       return (txt == str)
     end

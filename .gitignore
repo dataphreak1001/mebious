@@ -4,3 +4,4 @@ config.json
 tmp/
 unicorn.rb
 mebious.db
+public/images/

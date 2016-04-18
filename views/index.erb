@@ -15,12 +15,24 @@
         <button>in_txt</button>
       </form>
 
+      <form action="/images" method="POST" id="image" enctype="multipart/form-data">
+        <%= csrf_tag %>
+        <input name="image" type="file" accept=".png,.jpg">
+        <button>in_img</button>
+      </form>
+
       <a href="/rss">rss</a>
     </div>
     
     <div id="posts">
       <% for post in @posts %>
       <p class="post" style="<%= Mebious::stylize post %>"><%= Mebious::sanitize(Mebious::corrupt(post.text)) %></p>
+      <% end %>
+    </div>
+
+    <div id="images">
+      <% for image in @images %>
+      <img class="image" src="/images/<%= image.url %>">
       <% end %>
     </div>
   </body>

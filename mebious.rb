@@ -7,11 +7,12 @@ require "active_record"
 require_relative 'models/posts'
 require_relative 'models/bans'
 require_relative 'models/api'
+require_relative 'models/images'
 require_relative 'utils/mebious'
 
 begin
   config  = YAML.load_file "config.yml"
-  [Post, API, Ban].map { |klass|
+  [Post, API, Ban, Image].map { |klass|
     klass.establish_connection config["database"]
   }
 rescue Exception => e
@@ -42,6 +43,7 @@ class MebiousApp < Sinatra::Base
   # Main page.
   get ('/') {
     @posts = Post.last(20).to_a
+    @images = Image.last(20).to_a
     erb :index
   }
 
@@ -69,6 +71,32 @@ class MebiousApp < Sinatra::Base
 
     Post.add(text, ip)
     redirect '/'
+  }
+
+  # Make image post
+  post ('/images') {
+    ip = Mebious::digest(request.ip << request.user_agent)
+
+    if params["image"].empty?
+      return {"ok" => false, "error" => "No image parameter!"}.to_json
+    else
+      # @TODO: Add duplicate checking for images.
+      if Ban.banned? ip
+        redirect '/'
+      end
+
+      if !Image.add(params["image"][:tempfile], ip)
+        return {"ok" => false, "error" => "Image was invalid!"}.to_json
+      end
+
+      redirect '/'
+    end
+  }
+
+  get ('/images') {
+    cross_origin
+    content_type :json
+    Image.select("id, url, spawn, checksum").last(20).to_json
   }
 
   # API - Recent Posts
