@@ -49,6 +49,13 @@ module Mebious
 
   end
 
+  def style_image(image)
+    return "z-index: #{~rand(1...10)}; " \
+           "left: #{rand(0.1...50)}%; " \
+           "opacity: #{rand(0.5...1)}; " \
+           "top: #{rand(7.0..50)}%; "
+  end
+
   def corrupt(str)
     corruptions = [
       {"u" => "ü"},
@@ -94,5 +101,5 @@ module Mebious
     Digest::SHA512.hexdigest str
   end
 
-  module_function :green, :red, :gencolor, :stylize, :fonts, :corrupt, :sanitize, :digest
+  module_function :green, :red, :gencolor, :stylize, :fonts, :corrupt, :sanitize, :digest, :style_image
 end

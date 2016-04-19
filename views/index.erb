@@ -32,7 +32,7 @@
 
     <div id="images">
       <% for image in @images %>
-      <img class="image" src="/images/<%= image.url %>">
+      <img class="image" style="<%= Mebious::style_image image %>" src="/images/<%= image.url %>">
       <% end %>
     </div>
   </body>

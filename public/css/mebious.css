@@ -62,3 +62,13 @@ body, input {
     width: 40%;
     word-wrap: break-word;
 }
+
+.image {
+    position: absolute;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-drag: none;
+    user-drag: none;
+}
