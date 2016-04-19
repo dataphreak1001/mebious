@@ -27,6 +27,8 @@ class Image < ActiveRecord::Base
       :checksum => checksum
     })
 
+    tmpfile.close(true)
+
     return true
   end
 
