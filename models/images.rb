@@ -5,10 +5,14 @@ class Image < ActiveRecord::Base
   def self.add(tmpfile, ip)
     stamp = Time.now.to_i
     url   = self.filename
-    checksum  = Digest::MD5.file(tmpfile)
+    checksum  = Digest::MD5.file(tmpfile).to_s
     extension = get_ext tmpfile
 
     if !valid?(tmpfile) or extension.empty?
+      return false
+    end
+
+    if duplicate? checksum
       return false
     end
 
@@ -61,6 +65,14 @@ class Image < ActiveRecord::Base
       else
         return ""
       end
+    end
+  end
+
+  def self.duplicate?(checksum)
+    if self.last.nil?
+      return false
+    else
+      return (self.last.checksum.to_s == checksum)
     end
   end
 

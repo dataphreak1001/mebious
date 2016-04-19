@@ -77,16 +77,15 @@ class MebiousApp < Sinatra::Base
   post ('/images') {
     ip = Mebious::digest(request.ip << request.user_agent)
 
-    if params["image"].empty?
-      return {"ok" => false, "error" => "No image parameter!"}.to_json
+    if !params.has_key? "image"
+      redirect '/'
     else
-      # @TODO: Add duplicate checking for images.
       if Ban.banned? ip
         redirect '/'
       end
 
       if !Image.add(params["image"][:tempfile], ip)
-        return {"ok" => false, "error" => "Image was invalid!"}.to_json
+        redirect '/'
       end
 
       redirect '/'
