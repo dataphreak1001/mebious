@@ -8,11 +8,12 @@ require_relative 'models/posts'
 require_relative 'models/bans'
 require_relative 'models/api'
 require_relative 'models/images'
+require_relative 'models/filters'
 require_relative 'utils/mebious'
 
 begin
   config  = YAML.load_file "config.yml"
-  [Post, API, Ban, Image].map { |klass|
+  [Post, API, Ban, Image, Filter].map { |klass|
     klass.establish_connection config["database"]
   }
 rescue Exception => e
@@ -66,6 +67,10 @@ class MebiousApp < Sinatra::Base
     end
 
     if Ban.banned? ip
+      redirect '/'
+    end
+
+    if Filter.filtered? text
       redirect '/'
     end
 
@@ -142,6 +147,10 @@ class MebiousApp < Sinatra::Base
 
       if Ban.banned? ip
         return {"ok" => false, "error" => "You're banned!"}.to_json
+      end
+
+      if Filter.filtered? text
+        return {"ok" => false, "error" => "Your post has been detected as spam."}.to_json
       end
 
       Post.add(text, ip)
