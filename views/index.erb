@@ -8,6 +8,9 @@
     <meta charset="utf-8">
   </head>
   <body>
+    <% if flash[:error] %>
+      <span class="flash"><%= flash[:error] %></span>
+    <% end %>
     <div id="outline">
       <form action="/posts" method="POST" id="text">
         <%= csrf_tag %>

@@ -72,3 +72,12 @@ body, input {
     -moz-user-drag: none;
     user-drag: none;
 }
+
+.flash {
+    border: 1px solid #00cc00;
+    padding: 5px;
+    display: block;
+    text-align: center;
+    margin: 5px;
+    font-size: 1vw;
+}

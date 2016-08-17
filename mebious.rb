@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra/flash'
 require "yaml"
 require 'builder'
 require 'rack/csrf'
@@ -29,7 +30,8 @@ class MebiousApp < Sinatra::Base
   set :expose_headers, ['Content-Type']
 
   register Sinatra::CrossOrigin
-
+  register Sinatra::Flash
+  
   configure do
     use Rack::Session::Cookie, :secret => "your secret here"
     use Rack::Csrf, :raise => true, :skip => ['POST:/api/.*']
@@ -53,24 +55,34 @@ class MebiousApp < Sinatra::Base
     ip = Mebious::digest(request.ip << request.user_agent)
 
     if !params.has_key? "text"
+      flash[:error] = "You failed to include a message!"
       redirect '/'
     end
 
     if params["text"].empty?
+      flash[:error] = "You failed to include a message!"
       redirect '/'
     end
 
     text = params["text"].strip
 
     if Post.duplicate? text
+      flash[:error] = "Duplicate post detected!"
       redirect '/'
     end
 
     if Ban.banned? ip
+      flash[:error] = "You're banned from posting!"
       redirect '/'
     end
 
     if Filter.filtered? text
+      flash[:error] = "Your post was flagged as spam!"
+      redirect '/'
+    end
+
+    if !text.ascii_only?
+      flash[:error] = "Your post contained an invalid character!"
       redirect '/'
     end
 
