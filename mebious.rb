@@ -84,6 +84,7 @@ class MebiousApp < Sinatra::Base
     if Post.spam? text, ip
       flash[:error] = "You're posting way too frequently."
       Ban.create(:ip => ip)
+      Post.where(:ip => ip).delete_all # fuck you too
       redirect '/'
     end
 
