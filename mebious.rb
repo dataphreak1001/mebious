@@ -81,6 +81,12 @@ class MebiousApp < Sinatra::Base
       redirect '/'
     end
 
+    if Post.spam? text, ip
+      flash[:error] = "You're posting way too frequently."
+      Ban.create(:ip => ip)
+      redirect '/'
+    end
+
     if !text.ascii_only?
       flash[:error] = "Your post contained an invalid character!"
       redirect '/'
