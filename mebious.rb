@@ -52,7 +52,7 @@ class MebiousApp < Sinatra::Base
 
   # Make post
   post ('/posts') {
-    ip = Mebious::digest(request.ip << request.user_agent)
+    ip = request.ip
 
     if !params.has_key? "text"
       flash[:error] = "You failed to include a message!"
@@ -99,7 +99,7 @@ class MebiousApp < Sinatra::Base
 
   # Make image post
   post ('/images') {
-    ip = Mebious::digest(request.ip << request.user_agent)
+    ip = request.ip
 
     if !params.has_key? "image"
       redirect '/'
@@ -148,7 +148,7 @@ class MebiousApp < Sinatra::Base
     content_type :json
 
     if API.allowed? params[:key]
-      ip = Mebious::digest(request.ip << request.user_agent)
+      ip = request.ip
 
       if !params.include? "text"
         return {"ok" => false, "error" => "No text parameter!"}.to_json
