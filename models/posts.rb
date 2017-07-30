@@ -28,7 +28,7 @@ class Post < ActiveRecord::Base
   def self.spam?(text, ip)
     last = self.last(4)
 
-    if last.empty? or last.length < 4
+    if last.empty? or last.length < 5
       return false
     end
 
