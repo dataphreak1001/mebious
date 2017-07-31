@@ -3,5 +3,6 @@ create table if not exists posts (
        text varchar(512),
        spawn integer,
        ip varchar(512),
-       is_admin tinyint(1) 
+       is_admin tinyint(1),
+       hidden tinyint(1)
 );

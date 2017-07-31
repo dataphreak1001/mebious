@@ -11,7 +11,7 @@ xml.rss :version => "2.0" do
       xml.item {
         xml.title post.text
         xml.description post.text
-        xml.link "example.com"
+        xml.link "example.com/##{post.id}"
         xml.pubDate Time.at(post.spawn).rfc822
         xml.guid "example.com/##{post.id}"
       }        

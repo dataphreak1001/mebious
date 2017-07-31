@@ -7,7 +7,8 @@ class Post < ActiveRecord::Base
       :spawn    => stamp,
       :text     => text,
       :ip       => ip,
-      :is_admin => 0
+      :is_admin => 0,
+      :hidden   => 0
     })
   end
 
@@ -27,7 +28,7 @@ class Post < ActiveRecord::Base
   def self.spam?(text, ip)
     last = self.last(4)
 
-    if last.empty? or last.length < 4
+    if last.empty? or last.length < 5
       return false
     end
 
