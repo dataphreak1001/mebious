@@ -45,7 +45,7 @@ class MebiousApp < Sinatra::Base
 
   # Main page.
   get ('/') {
-    @posts = Post.last(20).where(:hidden => 0).to_a
+    @posts = Post.where(:hidden => 0).last(20).to_a
     @images = Image.last(10).to_a
     erb :index
   }
